@@ -6,9 +6,14 @@ const bcrypt = require('bcryptjs');
 const userSchema = new mongoose.Schema({
   local: {
     firstname: {
-      type: String
+      type: String,
+      default: ''
     },
     username: {
+      type: String,
+      lowercase: true
+    },
+    password: {
       type: String
     }
   },
@@ -32,12 +37,12 @@ userSchema.set('toObject', {
     ret.id = ret._id;
     delete ret._id;
     delete ret.__v;
-    delete ret.methods.local.password;
+    delete ret.local.password;
   }
 });
 
 userSchema.methods.validatePassword = function(password) {
-  return bcrypt.compare(password, this.password);
+  return bcrypt.compare(password, this.local.password);
 };
 
 userSchema.statics.hashPassword = function(password) {
