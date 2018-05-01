@@ -12,6 +12,7 @@ const helper = require('./helpers');
 const options = { session: false, failWithError: true };
 const googleOAuth = passport.authenticate('googleToken', options);
 
+//================================== google login ====================>
 //google login route
 router.post('/google', googleOAuth, (req, res, next) => {
   // console.log(req.user);

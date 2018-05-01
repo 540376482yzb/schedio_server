@@ -34,6 +34,7 @@ app.use('/signup', signupRoute);
 //local log in
 const localLoginRoute = require('./routes/localLogin.routes');
 app.use('/login/local', localLoginRoute);
+
 function runServer(port = PORT) {
   const server = app
     .listen(port, () => {
