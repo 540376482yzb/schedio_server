@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const User = require('../models/users');
+const User = require('../models/users.models');
 
 router.get('/', (req, res, next) => {
   User.find({})
@@ -14,7 +14,7 @@ router.get('/:id', (req, res, next) => {
     .catch(next);
 });
 
-router.post('/sign-up', (req, res, next) => {
+router.post('/', (req, res, next) => {
   const { firstName, username, password } = req.body;
 
   //todo: field validations
@@ -24,10 +24,11 @@ router.post('/sign-up', (req, res, next) => {
       return User.create({ local: newUser });
     })
     .then(user => {
+      console.log(user);
       return res
         .status(200)
         .location(`${req.originalUrl}/${user.id}`)
-        .json(user.local);
+        .json(user);
     })
     .catch(err => {
       if (err.code === 11000) {

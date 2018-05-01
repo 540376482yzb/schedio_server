@@ -17,7 +17,6 @@ passport.use(
         .then(user => {
           // found user
           if (user) {
-            user = user.google;
             return done(null, user);
           }
           // user have not register in our database
@@ -27,7 +26,7 @@ passport.use(
             username: profile.emails[0].value,
             photo: profile.photos[0].value
           };
-          return User.create({ google: user }).then(user => {
+          return User.create({ google: user }).then(_user => {
             return done(null, user);
           });
         })

@@ -29,7 +29,12 @@ app.use(express.json());
 // google log in
 const googleLoginRoute = require('./routes/googleLogin.routes');
 app.use('/login', googleLoginRoute);
-
+// local sign up
+const signupRoute = require('./routes/signup.routes');
+app.use('/signup', signupRoute);
+//local log in
+const localLoginRoute = require('./routes/localLogin.routes');
+app.use('/login/local', localLoginRoute);
 function runServer(port = PORT) {
   const server = app
     .listen(port, () => {

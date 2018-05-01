@@ -14,8 +14,8 @@ const googleOAuth = passport.authenticate('googleToken', options);
 
 //google login route
 router.post('/google', googleOAuth, (req, res, next) => {
-  console.log(req.user);
-  const authToken = helper.createAuthToken(req.user);
+  // console.log(req.user);
+  const authToken = helper.createAuthToken(req.user.google);
   res.status(201).json({ authToken });
 });
 
