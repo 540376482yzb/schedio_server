@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const passport = require('passport');
 
 const { PORT, CLIENT_ORIGIN } = require('./config');
 const { dbConnect } = require('./db-mongoose');
@@ -21,6 +22,13 @@ app.use(
     origin: CLIENT_ORIGIN
   })
 );
+// body parser
+app.use(express.json());
+
+//================================== mounting routes ====================>
+// google log in
+const googleLoginRoute = require('./routes/googleLogin.routes');
+app.use('/login', googleLoginRoute);
 
 function runServer(port = PORT) {
   const server = app
