@@ -43,3 +43,18 @@ Requires the [Heroku CLI client](https://devcenter.heroku.com/articles/heroku-co
 ### Deploying to Heroku
 
 * Push your code to Heroku: `git push heroku master`
+
+### API docs
+
+#### Google OAuth Login (POST)
+   ```
+   POST request on "/login/google"
+   ```
+   ```
+      example input: {
+         "access_token": "<your access token given by google>"
+      }
+      example output:{
+         "authToken":"<your jwt token hash>"
+      }
+   ```
