@@ -25,6 +25,7 @@ const WidgetSchema = new mongoose.Schema({
     }, 
     apiId: {
       type:String,
+      default:null
     },
   },
   yelp: {
@@ -33,7 +34,8 @@ const WidgetSchema = new mongoose.Schema({
       default:false,
     },
     apiId: {
-      type:String
+      type:String,
+      default:null
     }
   },
   gplaces: {
@@ -42,7 +44,8 @@ const WidgetSchema = new mongoose.Schema({
       default:false,
     },
     apiId: {
-      type:String
+      type:String,
+      default:null
     }
   },
   reiApi: {
@@ -51,7 +54,8 @@ const WidgetSchema = new mongoose.Schema({
       default:false
     },
     apiId: {
-      type:String
+      type:String,
+      default:null
     }
   },
   todo: {
@@ -63,16 +67,24 @@ const WidgetSchema = new mongoose.Schema({
   }
 });
 
+WidgetSchema.set('toObject', {
+  transform:function (doc,ret) {
+    delete ret._id;
+    delete ret.__v;
+  }
+});
+
 
 //================================== Define EventSchema ====================>
 
 const EventSchema = new mongoose.Schema({
   title: {
     type:String,
-    required:true
+    default:'New Event'
   },
   widgets: {
-    type: WidgetSchema
+    type: WidgetSchema,
+    default:WidgetSchema
   },
   user: {
     type: mongoose.Schema.Types.ObjectId, ref: 'User'
