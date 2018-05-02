@@ -202,4 +202,31 @@ router.put('/events/:id', (req,res,next) => {
 
 
 
+//================================== Delete Event -- DELETE [/api/events] ====================>
+router.delete('/events/:id', (req,res,next) => {
+  const {id} = req.params;
+  
+  // If provided ID is invalid, reject with 400 error
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    const err = new Error();
+    err.message = 'Invalid Event Id';
+    err.status = 400;
+    return next(err);
+  }
+
+  // Delete Event from DB
+  Event.findByIdAndRemove(id)
+    .then(response => {
+      if (!response) {
+        const err = new Error();
+        err.status = 404;
+        err.message = 'No Event with this ID found';
+        return next(err);
+      }
+      res.status(204).end();
+    })
+    .catch(next);
+});
+
+
 module.exports = router;
