@@ -18,6 +18,12 @@ const TodoSchema = new mongoose.Schema({
 
 
 const WidgetSchema = new mongoose.Schema({
+  weather: {
+    active: {
+      type:Boolean,
+      default:false
+    }   
+  },
   eventbrite: {
     active: {
       type:Boolean,
