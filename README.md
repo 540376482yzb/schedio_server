@@ -1,53 +1,8 @@
-# Thinkful Backend Template
+# Schedio API
 
-A template for developing and deploying Node.js apps.
 
-## Getting started
-
-### Setting up a project
-
-* Move into your projects directory: `cd ~/YOUR_PROJECTS_DIRECTORY`
-* Clone this repository: `git clone https://github.com/Thinkful-Ed/backend-template YOUR_PROJECT_NAME`
-* Move into the project directory: `cd YOUR_PROJECT_NAME`
-* Install the dependencies: `npm install`
-* Create a new repo on GitHub: https://github.com/new
-  * Make sure the "Initialize this repository with a README" option is left unchecked
-* Update the remote to point to your GitHub repository: `git remote set-url origin https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME`
-
-### Working on the project
-
-* Move into the project directory: `cd ~/YOUR_PROJECTS_DIRECTORY/YOUR_PROJECT_NAME`
-* Run the development task: `npm start`
-  * Starts a server running at http://localhost:8080
-  * Automatically restarts when any of your files change
-
-## Databases
-
-By default, the template is configured to connect to a MongoDB database using Mongoose. It can be changed to connect to a PostgreSQL database using Knex by replacing any imports of `db-mongoose.js` with imports of `db-knex.js`, and uncommenting the Postgres `DATABASE_URL` lines in `config.js`.
-
-## Deployment
-
-Requires the [Heroku CLI client](https://devcenter.heroku.com/articles/heroku-command-line).
-
-### Setting up the project on Heroku
-
-* Move into the project directory: `cd ~/YOUR_PROJECTS_DIRECTORY/YOUR_PROJECT_NAME`
-* Create the Heroku app: `heroku create PROJECT_NAME`
-
-* If your backend connects to a database, you need to configure the database URL:
-
-  * For a MongoDB database: `heroku config:set DATABASE_URL=mongodb://USERNAME:PASSWORD@HOST:PORT/DATABASE_NAME`
-  * For a PostgreSQL database: `heroku config:set DATABASE_URL=postgresql://USERNAME:PASSWORD@HOST:PORT/DATABASE_NAME`
-
-* If you are creating a full-stack app, you need to configure the client origin: `heroku config:set CLIENT_ORIGIN=https://www.YOUR_DEPLOYED_CLIENT.com`
-
-### Deploying to Heroku
-
-* Push your code to Heroku: `git push heroku master`
-
-### API docs
-
-#### Google OAuth Login (POST)
+## Authentication:
+### Google OAuth Login (POST)
 
 ```
 POST request on "/login/google"
@@ -62,7 +17,7 @@ POST request on "/login/google"
    }
 ```
 
-#### Local authentication(POST)
+### Local authentication(POST)
 
     ```
     POST request on "/signup"
@@ -93,3 +48,92 @@ POST request on "/login/google"
             "authToken":"<your jwt token>"
         }
     ```
+
+
+## Events:
+### Events are the core resource of Schedio. Events contain information about an event a user has decided to attend which widgets access.
+
+### Events contain information about the different widgets in the app, including whether or not the widget is expressed in the app, based on the user's preference.
+
+
+___
+
+### `GET /api/events/`
+
+This endpoint will return all events associated with a specific user.
+
+Required Data for Endpoint:
+* Authentication: User must be logged in because it is a protected route
+    1. The user's `req.body` information will be used (after authentication middleware has handed off to the route) to perform a database call for events associated with the user. 
+    2. This endpoint will *not* return ALL events. Only those associated with a user.
+
+___
+
+### `GET /api/events/:id`
+
+Returns an endpoint associated with a provided ID.
+
+Required Data for endpoint:
+* Authentication: Route is protected
+* `id` parameter:   `GET /api/events/2c930039403a0450`
+
+___
+
+### `POST /api/events'`
+
+Required Data for Endpoint:
+* Authentication. User must be logged in because 
+    1) It is a protected endpoint, and
+    2) The endpoint will make use of the `req.user` user information to assign a user ID to the event, ensuring that it is properly linked with the user that created it. 
+
+Optional Data for Endpoint:
+* title: A string expressing the title of the app. There are currently no limits on string length
+* location: Must be an Object with a `lat` and `long` coordinate. For example: 
+``` 
+location: {lat:12312311312323, long: 13123213123123}
+```
+If the `location` object is not an object with these keys, the endpoint will reject the update. 
+* starttime: A datetime string expressing the milliseconds since 1/1/1970. Specifies the start time of the event.
+* See the code below for an example of a proper POST request with all optional fields present:
+```
+GET /api/events
+
+req.body: {
+    location: {
+        "lat":"some-latitude",
+        "long":"some-longitude",
+    },
+    title: "Frisbee Fun",
+    starttime: "1525385432867"
+}
+```
+
+___
+
+### `PUT /api/events/:id`
+
+Allows us to change the title, location, or starttime of our Event.
+
+Required by this Endpoint:
+* Authentication: Protected Endpoint
+* `id` parameter, in order to specify which event you will be editing
+* At least one of the optional fields below:
+
+Optionally Accepted by this Endpoint:
+
+* `req.body.title`
+* `req.body.location`
+* `req.body.starttime`
+
+
+___
+
+### `DELETE /api/events/:id`
+
+Allows us to delete an event.
+
+Required by this Endpoint:
+* Authentication. It is a protected endpoint
+* `id` parameter in order to specify which event you will be deleting
+
+

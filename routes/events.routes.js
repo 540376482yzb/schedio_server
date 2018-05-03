@@ -5,12 +5,13 @@ const Event = require('../models/events.models');
 const router = express.Router();
 const mongoose = require('mongoose');
 
-//================================== Import SubRoutes ====================>
+//================================== Import Widget SubRoutes ====================>
 const weatherRoute = require('./widgetroutes/weather.widget.route');
-
+const todoRoute = require('./widgetroutes/todo.widget.routes');
 
 //================================== Mount Subroutes ====================>
 router.use('/events', weatherRoute);
+router.use('/events', todoRoute);
 
 
 
@@ -53,8 +54,8 @@ router.get('/events/:id', (req,res,next) => {
  */
 router.post('/events', (req,res,next) => {
   const newEventObj = {};
-  newEventObj.user = req.body.user;
-  const optionalFields = ['title','location','startdate','enddate'];
+  newEventObj.userId = req.body.userId;
+  const optionalFields = ['title','location','starttime'];
 
   // Insert Each optional field into newEventObj if exists
   optionalFields.forEach(field => {
@@ -63,16 +64,26 @@ router.post('/events', (req,res,next) => {
     }
   });
 
+
+  //Ensure that location is an object containing latitude and longitude coordinates
+  if ('location' in newEventObj) {
+    if (!newEventObj.location.lat || !newEventObj.location.long) {
+      const err = new Error();
+      err.status = 400;
+      err.message = `Location key required a 'lat' and 'long' key for latitude and longitude.  You provided ${newEventObj.location}`;
+    }
+  }
+
   // Ensure that a user ID has been provided
-  if (!newEventObj.user) {
+  if (!newEventObj.userId) {
     const err = new Error();
     err.status = 400;
-    err.message = 'Missing user Field';
+    err.message = 'Missing userId Field';
     return next(err);
   }
 
   // Check for a valid user ID submitted
-  if (!mongoose.Types.ObjectId.isValid(newEventObj.user)) {
+  if (!mongoose.Types.ObjectId.isValid(newEventObj.userId)) {
     const err = new Error();
     err.status = 400;
     err.message = 'Invalid user ID Specified';
@@ -109,6 +120,16 @@ router.put('/events/:id', (req,res,next) => {
       updateObj[field] = req.body[field];
     }
   });
+
+  //Ensure that location is an object containing latitude and longitude coordinates
+  if ('location' in updateObj) {
+    if (!updateObj.location.lat || !updateObj.location.long) {
+      const err = new Error();
+      err.status = 400;
+      err.message = `Location key required a 'lat' and 'long' key for latitude and longitude.  You provided ${newEventObj.location}`;
+    }
+  }
+  
 
   return Event.findByIdAndUpdate(id, updateObj,{new:true})
     .then(response => {
