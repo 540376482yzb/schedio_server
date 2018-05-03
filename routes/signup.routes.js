@@ -15,12 +15,12 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  const { firstName, username, password } = req.body;
-
+  const { firstname, username, password } = req.body;
+  console.log(req.body);
   //todo: field validations
   return User.hashPassword(password)
     .then(digest => {
-      const newUser = { firstName, username, password: digest };
+      const newUser = { firstname, username, password: digest };
       return User.create({ local: newUser });
     })
     .then(user => {

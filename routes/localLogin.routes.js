@@ -21,8 +21,11 @@ router.get('/', (req, res, next) => {
 //================================== local login ====================>
 
 router.post('/', localAuth, (req, res, next) => {
+ 
   const authToken = helper.createAuthToken(req.user.local);
-  res.status(200).json({ authToken });
+  console.log(authToken);
+  res.send(authToken);
+  // res.status(200).json({ authToken });
 });
 
 //================================== token refresh ====================>
