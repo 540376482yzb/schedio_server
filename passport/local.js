@@ -3,9 +3,11 @@ const User = require('../models/users.models');
 const { Strategy: LocalStrategy } = require('passport-local');
 const passport = require('passport');
 const localStrategy = new LocalStrategy((username, password, done) => {
+  console.log("Endpoint is being hit");
   let mUser;
   User.findOne({ 'local.username': username })
     .then(user => {
+      console.log(user);
       if (!user) {
         console.log('no user');
         return Promise.reject({
