@@ -50,7 +50,7 @@ POST request on "/login/google"
     ```
 
 
-## Events:
+## Events Endpoints:
 ### Events are the core resource of Schedio. Events contain information about an event a user has decided to attend which widgets access.
 
 ### Events contain information about the different widgets in the app, including whether or not the widget is expressed in the app, based on the user's preference.
@@ -137,3 +137,94 @@ Required by this Endpoint:
 * `id` parameter in order to specify which event you will be deleting
 
 
+___
+
+## Widgets:
+### Since Widget information is event specific, we will be extending the `/events` endpoint to allow for changes to widgets.
+
+
+___
+## Weather Widget Endpoint:
+The weather widget is the most simple widget to manage, as it's only configuration is `displayed:false` or `displayed:true`.
+
+### `PUT /api/events/:id/weather`
+Switches the Weather widget for a specified event to `displayed:true` or `displayed:false.`
+
+Required by this Endpoint:
+* Authentication (Protected Endpoint)
+* `/:id` parameter specifying the event the weather widget of which we will be modifying.
+* `requestType` command in request body. This request type is used to inform the server whether you are setting the weather widget to active or inactive.
+* The accepted commands for `requestType` are `"setActive"` or `"setInactive"`. This is a required command in the request body. The endpoint will return an error if it is not in the request body. 
+* See an example PUT request to this endpoint below:
+
+```
+PUT /api/events/5aeb7b60f74ab4040113e7db/weather
+req.body: {
+    requestType:'setActive'
+}
+
+// Sets weather widget for event with ID 5aeb7b60f74ab4040113e7db to `displayed`.
+```
+___
+
+## Todo list Widget Endpoint:
+`/api/events/5aeb7b60f74ab4040113e7db/todo`
+
+ Sets complete, incomplete, or edits the title of items in the todo list for each event.
+
+### `POST /api/events/:id/todo`:
+
+Required by this Endpoint:
+* Authentication (protected endpoint)
+* `/:id` parameter to specify which event the server will be altering
+* `title` parameter in `request body`. 
+
+```
+POST /api/events/5aeb7b60f74ab4040113e7db/todo
+req.body: {
+    title: 'Pack proper clothes'
+}
+```
+
+___
+### `PUT /api/events/:id/todo`
+Required by this Endpoint:
+* Authentication (protected endpoint)
+* `/:id` parameter to specify which event's todo list is being altered.
+* `requestType` parameter in Request body. This command is used to inform the server what kind of action you are taking. The server accepts 3 commands: `requestType: 'setComplete', requestType: 'setIncomplete', or requestType:'editTitle'`
+
+Depending on the kind of request you specify there may be another parameter or bit of information you need to specify:
+
+
+For `requestType:'setComplete'`:
+* Nothing further is required.
+
+For `requestType:'setIncomplete'`:
+* Nothing further is required
+
+For `requestType:'editTitle'`:
+* `newTitle` field is required in request body.
+
+```
+PUT /api/events/5aeb7b60f74ab4040113e7db/todo
+req.body: {
+    requestType:'editTitle',
+    newTitle:'Go to the grocery store'
+}
+```
+___ 
+
+### `DELETE /api/events/:id/todo?todoId=ID`
+
+Deletes a todo list item from an event with the specified ID
+
+Required by this endpoint:
+* Authentication (Protected Endpoint)
+* `/:id` parameter to specify event being altered
+* `todoId` in request QUERY. This tells the server which todo list item you're deleting.
+
+```
+DELETE /api/events/5aeb7b60f74ab4040113e7db/todo?todoId=5aeb7b60f74ab4040113e7db
+```
+
+___
