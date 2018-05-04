@@ -1,0 +1,17 @@
+[
+  {
+    "local": {
+      "firstname":"Jimmy Boobop",
+      "username":"jboobop",
+      "password":"$2a$10$vJJyCRM3EaXrAL4cbxRrPOSptza5nk.hkstmIeS5aVpYDDTCTemIi"
+    }
+  },
+  {
+    "local": {
+      "firstname":"Joyce Joy",
+      "username":"jjoy",
+      "password":"$2a$10$PS7JSw2JGM/1ZiQzNNhloOayD1LFAULoFB.1SrjVmmJHn5FV4MqZu"
+    }
+
+  }
+]
