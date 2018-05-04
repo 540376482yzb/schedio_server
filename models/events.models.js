@@ -17,70 +17,6 @@ const TodoSchema = new mongoose.Schema({
 });
 
 
-const WidgetSchema = new mongoose.Schema({
-  weather: {
-    active: {
-      type:Boolean,
-      default:false
-    }   
-  },
-  eventbrite: {
-    active: {
-      type:Boolean,
-      default:false,
-    }, 
-    apiId: {
-      type:String,
-      default:null
-    },
-  },
-  yelp: {
-    active: {
-      type:Boolean,
-      default:false,
-    },
-    apiId: {
-      type:String,
-      default:null
-    }
-  },
-  gplaces: {
-    active: {
-      type:Boolean,
-      default:false,
-    },
-    apiId: {
-      type:String,
-      default:null
-    }
-  },
-  reiApi: {
-    active: {
-      type:Boolean,
-      default:false
-    },
-    apiId: {
-      type:String,
-      default:null
-    }
-  },
-  todo: {
-    active: {
-      type:Boolean,
-      default:false
-    },
-    list:[TodoSchema]
-  }
-});
-
-WidgetSchema.set('toObject', {
-  transform:function (doc,ret) {
-    delete ret._id;
-    delete ret.__v;
-  }
-});
-
-
 //================================== Define EventSchema ====================>
 
 const EventSchema = new mongoose.Schema({
@@ -89,24 +25,66 @@ const EventSchema = new mongoose.Schema({
     default:'New Event'
   },
   widgets: {
-    type: WidgetSchema,
-    default:WidgetSchema
+    // These are just some mockup widgets we might have I suppose we'll need to decide on exactly what we want soon enough. 
+    outdooractivities: {
+      displayed: {type:Boolean,default:false},
+      info:{
+        type:Object,default:{}
+      }
+    },
+    weather: {
+      displayed: {type:Boolean,default:false},
+      info:{
+        type:Object,default:{}
+      }
+    },
+    todo: {
+      displayed: {type:Boolean,default:false},
+      info:{
+        type:Object,default:{}
+      },
+      list: [TodoSchema]
+    },
+    publicevents: {
+      displayed: {type:Boolean,default:false},
+      info:{
+        type:Object,default:{}
+      }
+    },
+    foodanddining: {
+      displayed: {type:Boolean,default:false},
+      info:{
+        type:Object,default:{}
+      }
+    },
+    sports: {
+      displayed: {type:Boolean,default:false},
+      info:{
+        type:Object,default:{}
+      }
+    }
   },
   user: {
     type: mongoose.Schema.Types.ObjectId, ref: 'User'
   },
-  location: String,
-  startdate:{
-    type: Date
-  },
-  enddate: {
-    type:Date
-  },
+  location: {},
+  starttime:{
+    type: Date,
+    default: Date.now()
+  }
 });
 
 //================================== Define Schema Transform ====================>
 
 EventSchema.set('toObject', {
+  transform:function (doc,ret) {
+    ret.id = ret._id;
+    delete ret._id;
+    delete ret.__v;
+  }
+});
+
+TodoSchema.set('toObject', {
   transform:function (doc,ret) {
     ret.id = ret._id;
     delete ret._id;
