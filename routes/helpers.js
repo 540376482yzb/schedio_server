@@ -7,8 +7,14 @@ helper functions
 */
 //createtoken
 function createAuthToken(user) {
+  let username;
+  if (user.google) {
+    username = user.google.username;
+  } else {
+    username = user.local.username;
+  }
   return jwt.sign({ user }, JWT_SECRET, {
-    subject: user.username,
+    subject: username,
     expiresIn: JWT_EXPIRY
   });
 }
