@@ -9,6 +9,13 @@ router.post('/:id/todo', (req,res,next) => {
   const {title} = req.body;
   const {id} = req.params;
 
+  // Check to ensure that the title field is provided.
+  if (!title) {
+    const err = new Error();
+    err.status = 400;
+    err.message = 'No title provided for the todolist item';
+  }
+
   Event.findByIdAndUpdate(id, {$push: {'widgets.todo.list': {'title':title}}}, {new:true})
     .then(response => {
       res.json(response);
@@ -52,6 +59,12 @@ router.put('/:id/todo', (req,res,next) => {
   if (requestType === 'editTitle') {
     const {newTitle} = req.body;
 
+    if (!newTitle) {
+      const err = new Error();
+      err.status = 404;
+      err.message = 'Missing newTitle field in request body';
+    }
+
     return  Event.update({'_id':id, 'widgets.todo.list._id':todoItemId}, {$set:{'widgets.todo.list.$.title':newTitle}}, {new:true})
       .then(response => res.status(200).json(response))
       .catch(next);
@@ -63,6 +76,11 @@ router.put('/:id/todo', (req,res,next) => {
 router.delete('/:id/todo', (req,res,next) => {
   const {id} = req.params;
   const {todoId} = req.query;
+  if (!todoId) {
+    const err = new Error();
+    err.status = 404;
+    err.message = 'Missing todoId field in request body';
+  }
 
   Event.findByIdAndUpdate(id, {$pull: {'widgets.todo.list': { '_id': todoId}}}, {new:true})
     .then(response => {

@@ -120,7 +120,7 @@ router.put('/events/:id', (req, res, next) => {
     return next(err);
   }
 
-  const potentiallyUpdatedFields = ['title', 'location', 'startdate', 'enddate'];
+  const potentiallyUpdatedFields = ['title','location','starttime'];
   const updateObj = {};
   potentiallyUpdatedFields.forEach(field => {
     if (field in req.body) {
