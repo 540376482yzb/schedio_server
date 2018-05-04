@@ -6,13 +6,14 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const passport = require('passport');
+const jwtStrategy = require('./passport/jwt');
 const { PORT, CLIENT_ORIGIN } = require('./config');
 const { dbConnect } = require('./db-mongoose');
 const app = express();
 
-
 //================================== Middleware ====================>
 
+passport.use(jwtStrategy);
 app.use(
   morgan(process.env.NODE_ENV === 'production' ? 'common' : 'dev', {
     skip: (req, res) => process.env.NODE_ENV === 'test'
@@ -38,19 +39,18 @@ app.use('/signup', signupRoute);
 const localLoginRoute = require('./routes/localLogin.routes');
 app.use('/login/local', localLoginRoute);
 
+//protect api route with jwt
+app.use(passport.authenticate('jwt', { session: false, failWithError: true }));
 // Events Route
 const eventRoute = require('./routes/events.routes');
 app.use('/api', eventRoute);
 
-
-
-app.use((err,req,res,next) => {
-  console.log("error handler was hit");
+app.use((err, req, res, next) => {
+  console.log('error handler was hit');
   err.status = err.status || 500;
   err.message = err.message || 'Internal Server Error';
   res.status(err.status).json(err);
 });
-
 
 //================================== Run Server Logic ====================>
 
