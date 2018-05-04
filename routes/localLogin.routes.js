@@ -21,7 +21,7 @@ router.get('/', (req, res, next) => {
 //================================== local login ====================>
 
 router.post('/', localAuth, (req, res, next) => {
-  const authToken = helper.createAuthToken(req.user.local);
+  const authToken = helper.createAuthToken(req.user);
   res.status(200).json({ authToken });
 });
 
