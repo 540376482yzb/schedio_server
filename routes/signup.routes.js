@@ -16,7 +16,6 @@ router.get('/:id', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   const { firstname, username, password } = req.body;
-  console.log(req.body);
   //todo: field validations
   return User.hashPassword(password)
     .then(digest => {
@@ -24,7 +23,6 @@ router.post('/', (req, res, next) => {
       return User.create({ local: newUser });
     })
     .then(user => {
-      console.log(user);
       return res
         .status(200)
         .location(`${req.originalUrl}/${user.id}`)

@@ -134,7 +134,7 @@ router.put('/events/:id', (req, res, next) => {
       const err = new Error();
       err.status = 400;
       err.message = `Location key required a 'lat' and 'long' key for latitude and longitude.  You provided ${
-        newEventObj.location
+        updateObj.location
       }`;
     }
   }
