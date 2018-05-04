@@ -8,7 +8,7 @@ helper functions
 //createtoken
 function createAuthToken(user) {
   let username;
-  if (user.google) {
+  if (user.google.username) {
     username = user.google.username;
   } else {
     username = user.local.username;

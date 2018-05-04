@@ -46,7 +46,7 @@ const eventRoute = require('./routes/events.routes');
 app.use('/api', eventRoute);
 
 app.use((err, req, res, next) => {
-  console.log('error handler was hit');
+  console.log(err);
   err.status = err.status || 500;
   err.message = err.message || 'Internal Server Error';
   res.status(err.status).json(err);
