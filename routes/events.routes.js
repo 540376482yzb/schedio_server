@@ -20,7 +20,8 @@ router.use('/events', todoRoute);
  * @returns A list of All events
  */
 router.get('/events', (req, res, next) => {
-  Event.find({})
+  let {id} = req.user;
+  Event.find({'user':id})
     .then(events => {
       res.json(events);
     })
@@ -49,8 +50,9 @@ router.get('/events/:id', (req, res, next) => {
  */
 router.post('/events', (req, res, next) => {
   const newEventObj = {};
-  newEventObj.userId = req.body.userId;
   const optionalFields = ['title', 'location', 'starttime'];
+
+  newEventObj.user = req.user.id;
 
   // Insert Each optional field into newEventObj if exists
   optionalFields.forEach(field => {
@@ -70,21 +72,6 @@ router.post('/events', (req, res, next) => {
     }
   }
 
-  // Ensure that a user ID has been provided
-  if (!newEventObj.userId) {
-    const err = new Error();
-    err.status = 400;
-    err.message = 'Missing userId Field';
-    return next(err);
-  }
-
-  // Check for a valid user ID submitted
-  if (!mongoose.Types.ObjectId.isValid(newEventObj.userId)) {
-    const err = new Error();
-    err.status = 400;
-    err.message = 'Invalid user ID Specified';
-    return next(err);
-  }
 
   /*========= MODIFY CREATE ROUTE TO FIT NEW DEMAND ======
     

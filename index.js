@@ -11,6 +11,8 @@ const { PORT, CLIENT_ORIGIN } = require('./config');
 const { dbConnect } = require('./db-mongoose');
 const app = express();
 
+
+
 //================================== Middleware ====================>
 
 passport.use(jwtStrategy);
@@ -70,4 +72,4 @@ if (require.main === module) {
   runServer();
 }
 
-module.exports = { app };
+module.exports = app;

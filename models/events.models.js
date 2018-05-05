@@ -69,7 +69,7 @@ const EventSchema = new mongoose.Schema({
   },
   location: {},
   starttime:{
-    type: Date,
+    type: String,
     default: Date.now()
   }
 });
