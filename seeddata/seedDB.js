@@ -9,45 +9,27 @@ const seedEvents = require('./events.json');
 const seedUsers = require('./users.json');
 
 const seedDB = () => {
-  mongoose.connect(TEST_DATABASE_URL, (err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log('test DB connected');
-    }
-  });
 
-  Event.deleteMany({})
+  return User.remove({})
+    .then(result => {
+      console.info('dropped collection');
+      return Event.remove({});
+    })
     .then(response => {
-      console.log('removed all events');
-
-      Event.insertMany(seedEvents)
-        .then(response => {
-          console.log(`Inserted ${response.length} events into DB`);
-        });  
+      console.log('dropped events');
+      return Event.insertMany(seedEvents);
+    })
+    .then(response => {
+      console.log(`Inserted ${response.length} events into DB`);
+      return User.insertMany(seedUsers);
+    })
+    .then(response => {
+      console.log(`Inserted ${response.length} users into DB`);
     })
     .catch(err => {
       console.log(err);
     });
-
-
-
-  User.deleteMany({})
-    .then(response => {
-      console.log('removed all users');
-
-      User.insertMany(seedUsers)
-        .then(response => {
-          console.log(`Inserted ${response.length} users into DB`);
-          process.exit();
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    })
-    .catch(err => {
-      console.log(err);
-    });
+   
 
 };
 

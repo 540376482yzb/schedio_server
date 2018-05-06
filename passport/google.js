@@ -1,5 +1,7 @@
 'use strict';
-const { clientSecret, clientID } = require('../config');
+// const { clientSecret , clientID } = require('../config');
+const clientSecret = require('../config').clientSecret || process.env.client_Secret;
+const clientID = require('../config').clientID || process.env.client_ID;
 const GooglePlusTokenStrategy = require('passport-google-plus-token');
 const passport = require('passport');
 const User = require('../models/users.models');
