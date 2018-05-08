@@ -48,7 +48,8 @@ app.use('/api', eventRoute);
 app.use((err, req, res, next) => {
   err.status = err.status || 500;
   err.message = err.message || 'Internal Server Error';
-  res.status(err.status).json({ message: err.message, status: err.status });
+  // res.status(err.status).json({ message: err.message, status: err.status });
+  res.status(err.status).json(err);
 });
 
 //================================== Run Server Logic ====================>
