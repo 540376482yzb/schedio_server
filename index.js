@@ -11,8 +11,6 @@ const { PORT, CLIENT_ORIGIN } = require('./config');
 const { dbConnect } = require('./db-mongoose');
 const app = express();
 
-
-
 //================================== Middleware ====================>
 
 passport.use(jwtStrategy);
@@ -48,10 +46,9 @@ const eventRoute = require('./routes/events.routes');
 app.use('/api', eventRoute);
 
 app.use((err, req, res, next) => {
-  console.log(err);
   err.status = err.status || 500;
   err.message = err.message || 'Internal Server Error';
-  res.status(err.status).json(err);
+  res.status(err.status).json({ message: err.message, status: err.status });
 });
 
 //================================== Run Server Logic ====================>
