@@ -1,15 +1,17 @@
 'use strict';
 
 //================================== Import Dependencies ====================>
+
 const mongoose = require('mongoose');
 const Event = require('../models/events.models');
 const User = require('../models/users.models');
-const {TEST_DATABASE_URL} = require('../config');
+const { DATABASE_URL } = require('../config');
 const seedEvents = require('./events.json');
 const seedUsers = require('./users.json');
-
+if (require.main === module) {
+  mongoose.connect(DATABASE_URL);
+}
 const seedDB = () => {
-
   return User.remove({})
     .then(result => {
       console.info('dropped collection');
@@ -29,10 +31,7 @@ const seedDB = () => {
     .catch(err => {
       console.log(err);
     });
-   
-
 };
-
 
 if (require.main === module) {
   seedDB();
