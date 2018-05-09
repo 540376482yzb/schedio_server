@@ -6,28 +6,14 @@ const Event = require('../../models/events.models');
 
 
 // Retrieve the id of the EVENT that this widget belongs to
-router.put('/:id/weather', (req,res,next) => {
-  const {id} = req.params;
-  const {requestType} = req.body;
+// router.put('/:id/weather', (req,res,next) => {
+//   const {id} = req.params;
+//   const {requestType} = req.body;
 
-  if (requestType === 'setActive') {
-    Event.findByIdAndUpdate(id, {$set: {'widgets.weather.displayed': true}}, {new:true})
-      .then(response => {
-        res.json(response);
-      })
-      .catch(next);
-  }
-  
-  if (requestType === 'setInactive') {
-    Event.findByIdAndUpdate(id, {$set: {'widgets.weather.active': false}}, {new:true})
-      .then(response => {
-        res.json(response);
-      })
-      .catch(next);
-  }
+// // At the moment we have no need for actions for this widget because there are no features in the app which customize this widget. Perhaps some will come soon.
   
 
-});
+// });
 
 
 module.exports = router;
