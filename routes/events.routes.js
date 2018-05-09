@@ -8,10 +8,12 @@ const mongoose = require('mongoose');
 //================================== Import Widget SubRoutes ====================>
 const weatherRoute = require('./widgetroutes/weather.widget.route');
 const todoRoute = require('./widgetroutes/todo.widget.routes');
+const displayRoute = require('./widgetroutes/display.widget.routes');
 
 //================================== Mount Subroutes ====================>
 router.use('/events', weatherRoute);
 router.use('/events', todoRoute);
+router.use('/events', displayRoute);
 
 //================================== GET ALL EVENTS [/api/events]====================>
 /**
@@ -20,8 +22,8 @@ router.use('/events', todoRoute);
  * @returns A list of All events
  */
 router.get('/events', (req, res, next) => {
-  let {id} = req.user;
-  Event.find({'user':id})
+  let { id } = req.user;
+  Event.find({ user: id })
     .then(events => {
       res.json(events);
     })
@@ -72,7 +74,6 @@ router.post('/events', (req, res, next) => {
     }
   }
 
-
   /*========= MODIFY CREATE ROUTE TO FIT NEW DEMAND ======
     
   */
@@ -107,7 +108,7 @@ router.put('/events/:id', (req, res, next) => {
     return next(err);
   }
 
-  const potentiallyUpdatedFields = ['title','location','starttime'];
+  const potentiallyUpdatedFields = ['title', 'location', 'starttime'];
   const updateObj = {};
   potentiallyUpdatedFields.forEach(field => {
     if (field in req.body) {
