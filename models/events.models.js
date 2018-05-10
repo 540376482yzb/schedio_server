@@ -35,7 +35,7 @@ const EventSchema = new mongoose.Schema({
       displayed: { type: Boolean, default: false },
       info: {
         type: Object,
-        default: { message: 'there is no info' }
+        default: {}
       }
     },
     weather: {
