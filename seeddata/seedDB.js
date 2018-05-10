@@ -8,10 +8,13 @@ const User = require('../models/users.models');
 const { DATABASE_URL } = require('../config');
 const seedEvents = require('./events.json');
 const seedUsers = require('./users.json');
-if (require.main === module) {
-  mongoose.connect(DATABASE_URL);
-}
+
 const seedDB = () => {
+
+  if (require.main === module) {
+    mongoose.connect(TEST_DATABASE_URL);
+  }
+
   return User.remove({})
     .then(result => {
       console.info('dropped collection');
@@ -32,6 +35,7 @@ const seedDB = () => {
       console.log(err);
     });
 };
+
 
 if (require.main === module) {
   seedDB();
