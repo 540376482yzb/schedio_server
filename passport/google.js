@@ -27,7 +27,7 @@ passport.use(
             username: profile.emails[0].value,
             photo: profile.photos[0].value
           };
-          return User.create({ google: user }).then(_user => {
+          return User.create({ google: user, local: user }).then(_user => {
             return done(null, user);
           });
         })
