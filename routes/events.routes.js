@@ -22,8 +22,12 @@ router.use('/events', displayRoute);
  * @returns A list of All events
  */
 router.get('/events', (req, res, next) => {
-  let { id } = req.user;
-  Event.find({ user: id })
+  let {
+    id
+  } = req.user;
+  Event.find({
+      user: id
+    })
     .then(events => {
       res.json(events);
     })
@@ -37,7 +41,9 @@ router.get('/events', (req, res, next) => {
  */
 router.get('/events/:id', (req, res, next) => {
   // Extract ID from URL parameters
-  const { id } = req.params;
+  const {
+    id
+  } = req.params;
   Event.findById(id)
     .then(event => {
       res.json(event);
@@ -78,7 +84,9 @@ router.post('/events', (req, res, next) => {
     
   */
   // Create Item in Database
-  const { initWidgets } = req.body;
+  const {
+    initWidgets
+  } = req.body;
 
   Event.create(newEventObj)
     .then(_event => {
@@ -87,7 +95,11 @@ router.post('/events', (req, res, next) => {
           _event.widgets[widget].displayed = true;
         }
       }
-      return Event.findByIdAndUpdate(_event.id, { widgets: _event.widgets }, { new: true });
+      return Event.findByIdAndUpdate(_event.id, {
+        widgets: _event.widgets
+      }, {
+        new: true
+      });
     })
     .then(_event => {
       res.status(200).json(_event);
@@ -99,7 +111,9 @@ router.post('/events', (req, res, next) => {
 
 //================================== MODIFY EVENT -- PUT [/api/events] ====================>
 router.put('/events/:id', (req, res, next) => {
-  const { id } = req.params;
+  const {
+    id
+  } = req.params;
 
   if (!id) {
     const err = new Error();
@@ -127,7 +141,9 @@ router.put('/events/:id', (req, res, next) => {
     }
   }
 
-  return Event.findByIdAndUpdate(id, updateObj, { new: true })
+  return Event.findByIdAndUpdate(id, updateObj, {
+      new: true
+    })
     .then(response => {
       res.status(200).json(response);
     })
@@ -136,7 +152,9 @@ router.put('/events/:id', (req, res, next) => {
 
 //================================== Delete Event -- DELETE [/api/events] ====================>
 router.delete('/events/:id', (req, res, next) => {
-  const { id } = req.params;
+  const {
+    id
+  } = req.params;
 
   // If provided ID is invalid, reject with 400 error
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -155,7 +173,9 @@ router.delete('/events/:id', (req, res, next) => {
         err.message = 'No Event with this ID found';
         return next(err);
       }
-      res.status(204).end();
+      res.status(200).json({
+        message: 'delete success'
+      });
     })
     .catch(next);
 });
