@@ -9,11 +9,13 @@ const mongoose = require('mongoose');
 const weatherRoute = require('./widgetroutes/weather.widget.route');
 const todoRoute = require('./widgetroutes/todo.widget.routes');
 const displayRoute = require('./widgetroutes/display.widget.routes');
+const hikingRoute = require('./widgetroutes/hiking.widget.routes');
 
 //================================== Mount Subroutes ====================>
 router.use('/events', weatherRoute);
 router.use('/events', todoRoute);
 router.use('/events', displayRoute);
+router.use('/events', hikingRoute);
 
 //================================== GET ALL EVENTS [/api/events]====================>
 /**
