@@ -24,6 +24,7 @@ router.use('/events', displayRoute);
 router.get('/events', (req, res, next) => {
   let { id } = req.user;
   Event.find({ user: id })
+    .sort({'starttime':'ascending'})
     .then(events => {
       res.json(events);
     })
