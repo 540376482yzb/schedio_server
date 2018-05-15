@@ -9,11 +9,14 @@ const mongoose = require('mongoose');
 const weatherRoute = require('./widgetroutes/weather.widget.route');
 const todoRoute = require('./widgetroutes/todo.widget.routes');
 const displayRoute = require('./widgetroutes/display.widget.routes');
+const mapRoute = require('./widgetroutes/map.widget.routes');
+
 
 //================================== Mount Subroutes ====================>
 router.use('/events', weatherRoute);
 router.use('/events', todoRoute);
 router.use('/events', displayRoute);
+router.use('/events', mapRoute)
 
 //================================== GET ALL EVENTS [/api/events]====================>
 /**
@@ -22,9 +25,15 @@ router.use('/events', displayRoute);
  * @returns A list of All events
  */
 router.get('/events', (req, res, next) => {
-  let { id } = req.user;
-  Event.find({ user: id })
-    .sort({'starttime':'ascending'})
+  let {
+    id
+  } = req.user;
+  Event.find({
+      user: id
+    })
+    .sort({
+      'starttime': 'ascending'
+    })
     .then(events => {
       res.json(events);
     })
@@ -139,8 +148,8 @@ router.put('/events/:id', (req, res, next) => {
   }
 
   return Event.findByIdAndUpdate(id, updateObj, {
-    new: true
-  })
+      new: true
+    })
     .then(response => {
       res.status(200).json(response);
     })
