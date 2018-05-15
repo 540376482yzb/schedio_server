@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const weatherRoute = require('./widgetroutes/weather.widget.route');
 const todoRoute = require('./widgetroutes/todo.widget.routes');
 const displayRoute = require('./widgetroutes/display.widget.routes');
-const mapRoute = require('./widgetroutes/map.widget.routes');
+const mapRoute = require('./widgetroutes/map.widget.route');
 
 
 //================================== Mount Subroutes ====================>

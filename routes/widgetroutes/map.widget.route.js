@@ -9,14 +9,16 @@ router.put('/:id/map', (req, res, next) => {
     const {
         id
     } = req.params;
-    const info = req.body;
+    const {
+        info
+    } = req.body;
     return Event.findByIdAndUpdate(id, {
             'widgets.map.info': info
         }, {
             new: true
         })
         .then(res => {
-            console.log(res)
+            res.status(200).json(res)
         })
         .catch(next)
 
