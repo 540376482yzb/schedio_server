@@ -8,5 +8,6 @@ module.exports = {
   clientID: process.env.client_ID,
   clientSecret: process.env.client_SECRET,
   JWT_SECRET: process.env.JWT_SECRET,
-  JWT_EXPIRY: process.env.JWT_EXPIRY || '7d'
+  JWT_EXPIRY: process.env.JWT_EXPIRY || '7d',
+  YELP_API_KEY:process.env.YELP_API_KEY
 };

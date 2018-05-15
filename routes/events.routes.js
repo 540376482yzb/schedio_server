@@ -10,13 +10,14 @@ const weatherRoute = require('./widgetroutes/weather.widget.route');
 const todoRoute = require('./widgetroutes/todo.widget.routes');
 const displayRoute = require('./widgetroutes/display.widget.routes');
 const mapRoute = require('./widgetroutes/map.widget.route');
-
+const foodRoute = require('./widgetroutes/food.routes');
 
 //================================== Mount Subroutes ====================>
 router.use('/events', weatherRoute);
 router.use('/events', todoRoute);
 router.use('/events', displayRoute);
-router.use('/events', mapRoute)
+router.use('/events', mapRoute);
+router.use('/events', foodRoute);
 
 //================================== GET ALL EVENTS [/api/events]====================>
 /**
@@ -29,8 +30,8 @@ router.get('/events', (req, res, next) => {
     id
   } = req.user;
   Event.find({
-      user: id
-    })
+    user: id
+  })
     .sort({
       'starttime': 'ascending'
     })
@@ -148,8 +149,8 @@ router.put('/events/:id', (req, res, next) => {
   }
 
   return Event.findByIdAndUpdate(id, updateObj, {
-      new: true
-    })
+    new: true
+  })
     .then(response => {
       res.status(200).json(response);
     })
