@@ -7,8 +7,13 @@ const cors = require('cors');
 const morgan = require('morgan');
 const passport = require('passport');
 const jwtStrategy = require('./passport/jwt');
-const { PORT, CLIENT_ORIGIN } = require('./config');
-const { dbConnect } = require('./db-mongoose');
+const {
+  PORT,
+  CLIENT_ORIGIN
+} = require('./config');
+const {
+  dbConnect
+} = require('./db-mongoose');
 const app = express();
 
 //================================== Middleware ====================>
@@ -40,17 +45,26 @@ const localLoginRoute = require('./routes/localLogin.routes');
 app.use('/login/local', localLoginRoute);
 
 //protect api route with jwt
-app.use(passport.authenticate('jwt', { session: false, failWithError: true }));
+app.use(passport.authenticate('jwt', {
+  session: false,
+  failWithError: true
+}));
 // Events Route
 const eventRoute = require('./routes/events.routes');
 app.use('/api', eventRoute);
+const userRoute = require('./routes/users.routes');
+app.use('/user', userRoute);
 
 app.use((err, req, res, next) => {
   console.log(err);
   err.status = err.status || 500;
   err.message = err.message || 'Internal Server Error';
   err.location = err.location ? err.location : 'unknown';
-  res.status(err.status).json({ message: err.message, status: err.status, location: err.location });
+  res.status(err.status).json({
+    message: err.message,
+    status: err.status,
+    location: err.location
+  });
 });
 
 //================================== Run Server Logic ====================>
