@@ -4,6 +4,12 @@ const express =require('express');
 const router = express.Router();
 const {YELP_API_KEY} = require('../../config');
 const axios = require('axios');
+const Event = require('../../models/events.models');
+
+
+
+
+//================================== Yelp API helper For Requests on Frontend ====================>
 
 
 router.get('/yelphelper', (req,res,next) => {
@@ -30,6 +36,24 @@ router.get('/yelphelper', (req,res,next) => {
     });
 
 });
+
+
+//================================== PERSIST Restaurant Data on the Frontend ====================>
+
+router.put('/:id/foodanddining', (req,res,next) => {
+  // Extract ID from request Body
+  const {id} = req.params;
+  const {restaurantInfo} = req.body;
+
+  Event.findByIdAndUpdate(id, {$set: {'widgets.foodanddining.info': restaurantInfo}})
+    .then(response => {
+      res.json(response);
+    })
+    .catch(next);
+});
+
+
+
 
 
 module.exports = router;

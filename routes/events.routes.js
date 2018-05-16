@@ -10,7 +10,7 @@ const weatherRoute = require('./widgetroutes/weather.widget.route');
 const todoRoute = require('./widgetroutes/todo.widget.routes');
 const displayRoute = require('./widgetroutes/display.widget.routes');
 const mapRoute = require('./widgetroutes/map.widget.route');
-const foodRoute = require('./widgetroutes/food.routes');
+const foodRoute = require('./widgetroutes/food.widget.routes');
 
 //================================== Mount Subroutes ====================>
 router.use('/events', weatherRoute);
