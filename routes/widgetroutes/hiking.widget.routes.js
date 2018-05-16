@@ -73,7 +73,6 @@ router.put('/:id/hiking', (req,res,next) => {
       res.json(response);
     })
     .catch(next);
-
 });
 
 module.exports = router;
