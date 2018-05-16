@@ -25,7 +25,7 @@ router.put('/:id/username', (req, res, next) => {
     const {
         username
     } = req.body
-    console.log(username)
+
     User.findByIdAndUpdate(req.params.id, {
         'local.username': username
     }, {
@@ -35,10 +35,12 @@ router.put('/:id/username', (req, res, next) => {
             res.json(user)
         })
 })
+
 router.put('/:id/firstname', (req, res, next) => {
     const {
         firstname
     } = req.body
+
     User.findByIdAndUpdate(req.params.id, {
         'local.firstname': firstname
     }, {
