@@ -11,6 +11,7 @@ const todoRoute = require('./widgetroutes/todo.widget.routes');
 const displayRoute = require('./widgetroutes/display.widget.routes');
 const mapRoute = require('./widgetroutes/map.widget.route');
 const foodRoute = require('./widgetroutes/food.routes');
+const hikingRoute = require('./widgetroutes/hiking.widget.routes');
 
 //================================== Mount Subroutes ====================>
 router.use('/events', weatherRoute);
@@ -18,6 +19,7 @@ router.use('/events', todoRoute);
 router.use('/events', displayRoute);
 router.use('/events', mapRoute);
 router.use('/events', foodRoute);
+router.use('/events', hikingRoute);
 
 //================================== GET ALL EVENTS [/api/events]====================>
 /**
