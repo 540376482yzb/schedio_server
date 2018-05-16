@@ -7,6 +7,7 @@ const axios = require('axios');
 const Event = require('../../models/events.models');
 
 
+
 router.get('/yelphelper', (req,res,next) => {
   const {searchTerm, latitude, longitude} = req.query;
   if (!searchTerm || !latitude || !longitude) {
@@ -31,6 +32,7 @@ router.get('/yelphelper', (req,res,next) => {
     });
 
 });
+
 
 
 router.put('/:id/foodanddining', (req,res,next) => {
@@ -58,8 +60,5 @@ router.put('/:id/foodanddining', (req,res,next) => {
     
 
 });
-
-
-
 
 module.exports = router;
