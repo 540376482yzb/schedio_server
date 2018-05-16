@@ -1,7 +1,7 @@
 {
-  "name": "thinkful-backend-template",
+  "name": "schedio-server",
   "version": "1.0.0",
-  "description": "Template for an Express backend",
+  "description": "Server for Schedio Itinerary software",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -15,6 +15,7 @@
   "author": "Joe Turner <jturner@thinkful.com>",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.4",
     "express": "^4.16.3",
