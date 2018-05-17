@@ -11,6 +11,7 @@ const todoRoute = require('./widgetroutes/todo.widget.routes');
 const displayRoute = require('./widgetroutes/display.widget.routes');
 const mapRoute = require('./widgetroutes/map.widget.route');
 const foodRoute = require('./widgetroutes/food.routes');
+const hikingRoute = require('./widgetroutes/hiking.widget.routes');
 
 //================================== Mount Subroutes ====================>
 router.use('/events', weatherRoute);
@@ -18,6 +19,7 @@ router.use('/events', todoRoute);
 router.use('/events', displayRoute);
 router.use('/events', mapRoute);
 router.use('/events', foodRoute);
+router.use('/events', hikingRoute);
 
 //================================== GET ALL EVENTS [/api/events]====================>
 /**
@@ -83,7 +85,7 @@ router.post('/events', (req, res, next) => {
       err.status = 400;
       err.message = `Location key required a 'lat' and 'long' key for latitude and longitude.  You provided ${
         newEventObj.location
-      }`;
+        }`;
     }
   }
 
@@ -94,7 +96,6 @@ router.post('/events', (req, res, next) => {
   const {
     initWidgets
   } = req.body;
-
   Event.create(newEventObj)
     .then(_event => {
       for (let widget in _event.widgets) {
@@ -102,11 +103,12 @@ router.post('/events', (req, res, next) => {
           _event.widgets[widget].displayed = true;
         }
       }
+      console.log(_event)
       return Event.findByIdAndUpdate(_event.id, {
         widgets: _event.widgets
       }, {
-        new: true
-      });
+          new: true
+        });
     })
     .then(_event => {
       res.status(200).json(_event);
@@ -144,7 +146,7 @@ router.put('/events/:id', (req, res, next) => {
       err.status = 400;
       err.message = `Location key required a 'lat' and 'long' key for latitude and longitude.  You provided ${
         updateObj.location
-      }`;
+        }`;
     }
   }
 

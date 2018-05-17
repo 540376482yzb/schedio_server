@@ -15,6 +15,39 @@ const TodoSchema = new mongoose.Schema({
   }
 });
 
+//================================== Define Hiking trail Schema -- SubDocument of EventSchema ====================>
+
+// set all known trail api param to required: true
+const HikingSchema = new mongoose.Schema({
+  ascent: Number,
+  conditionDate: String,
+  conditionDetails: String,
+  conditionStatus: String,
+  descent: Number,
+  difficulty: String,
+  high: Number,
+  imgMedium: String,
+  imgSmall: String,
+  imgSmallMed: String,
+  imgSqSmall: String,
+  latitude: Number,
+  length: Number,
+  location: String,
+  longitude: Number,
+  low: Number,
+  name: String,
+  starVotes: Number,
+  stars: Number,
+  summary: String,
+  type: String,
+  url: String
+});
+
+// HikingSchema.index({
+//   title: 'text',
+//   content: 'text'
+// });
+
 //================================== Define EventSchema ====================>
 
 const EventSchema = new mongoose.Schema({
@@ -30,6 +63,7 @@ const EventSchema = new mongoose.Schema({
         type: Object,
         default: {}
       }
+      // trail: [HikingSchema]
     },
     map: {
       displayed: { type: Boolean, default: false },
@@ -98,6 +132,14 @@ EventSchema.set('toObject', {
 
 TodoSchema.set('toObject', {
   transform: function(doc, ret) {
+    ret.id = ret._id;
+    delete ret._id;
+    delete ret.__v;
+  }
+});
+
+HikingSchema.set('toObject', {
+  transform: function (doc, ret) {
     ret.id = ret._id;
     delete ret._id;
     delete ret.__v;

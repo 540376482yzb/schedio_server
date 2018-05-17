@@ -13,12 +13,12 @@ router.put('/:id/map', (req, res, next) => {
         info
     } = req.body;
     return Event.findByIdAndUpdate(id, {
-            'widgets.map.info': info
-        }, {
+        'widgets.map.info': info
+    }, {
             new: true
         })
-        .then(res => {
-            res.status(200).json(res)
+        .then(map => {
+            res.status(200).json(map)
         })
         .catch(next)
 
