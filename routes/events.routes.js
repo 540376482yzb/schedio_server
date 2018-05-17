@@ -85,7 +85,7 @@ router.post('/events', (req, res, next) => {
       err.status = 400;
       err.message = `Location key required a 'lat' and 'long' key for latitude and longitude.  You provided ${
         newEventObj.location
-      }`;
+        }`;
     }
   }
 
@@ -96,7 +96,6 @@ router.post('/events', (req, res, next) => {
   const {
     initWidgets
   } = req.body;
-
   Event.create(newEventObj)
     .then(_event => {
       for (let widget in _event.widgets) {
@@ -104,11 +103,12 @@ router.post('/events', (req, res, next) => {
           _event.widgets[widget].displayed = true;
         }
       }
+      console.log(_event)
       return Event.findByIdAndUpdate(_event.id, {
         widgets: _event.widgets
       }, {
-        new: true
-      });
+          new: true
+        });
     })
     .then(_event => {
       res.status(200).json(_event);
@@ -146,7 +146,7 @@ router.put('/events/:id', (req, res, next) => {
       err.status = 400;
       err.message = `Location key required a 'lat' and 'long' key for latitude and longitude.  You provided ${
         updateObj.location
-      }`;
+        }`;
     }
   }
 
