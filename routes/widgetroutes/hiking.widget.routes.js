@@ -69,7 +69,6 @@ router.put('/:id/hiking', (req,res,next) => {
   // reason not working frist time: push in destruc object (creating a new object) -> new id but not matching schema
   Event.findByIdAndUpdate(id, {$set: {'widgets.outdooractivities.info': newItem}}, {new:true})
     .then(response => {
-      console.log(response)
       res.json(response);
     })
     .catch(next);
